@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-# from app.services.workflow_service import run_workflow
+from app.services.chat_service import run_workflow
 from langchain_core.messages import HumanMessage
 
 chat_bp = Blueprint("chat", __name__)
@@ -16,11 +16,11 @@ async def chat():
     if not chat_id:
         return jsonify({"error": "The 'chat_id' parameter is required"}), 400
 
-    # Process the query using the LangChain workflow
+    
     input_messages = [HumanMessage(content=query)]
+    
     try:
-        # response = await run_workflow(input_messages, language)
-        # return jsonify({"chat_id": chat_id, "response": response.content}), 200
-        return jsonify({"chat_id": chat_id, "response": "foo bar"}), 200
+        response = await run_workflow(input_messages, language)
+        return jsonify({"chat_id": chat_id, "response": response.content}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
