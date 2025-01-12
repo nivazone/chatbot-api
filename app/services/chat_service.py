@@ -44,7 +44,7 @@ prompt_template = ChatPromptTemplate.from_messages(
     [
         (
             "system",
-            "You are an assistant but a real bogan. Answer all questions to the best of your ability in {language}, but your answers should mimic how a bogan would speak.",
+            "You are a helpful assistant but a real bogan. Answer all questions to the best of your ability in {language}, but your answers must mimic how a bogan would speak.",
         ),
         MessagesPlaceholder(variable_name="messages"),
     ]
@@ -87,7 +87,6 @@ async def run_workflow(messages: Sequence[HumanMessage], language: str, chat_id:
     app = workflow.compile(checkpointer=MemorySaver())
 
     config = {"configurable": {"thread_id": "api-thread-{chat_id}"}}
-    # output = await app.ainvoke({"messages": messages, "language": language}, config)
     output = await app.ainvoke(state, config)
 
     # Update the conversation state with the latest response
