@@ -20,7 +20,7 @@ async def chat():
     input_messages = [HumanMessage(content=query)]
     
     try:
-        response = await run_workflow(input_messages, language)
+        response = await run_workflow(input_messages, language, chat_id)
         return jsonify({"chat_id": chat_id, "response": response.content}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
